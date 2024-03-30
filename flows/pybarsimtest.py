@@ -12,7 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.animation as animation
-from IPython.display import HTML
+# from IPython.display import HTML
 
 from pybarsim import BarSim2D
 
