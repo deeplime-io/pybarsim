@@ -81,7 +81,7 @@ def run():
                       start_with_storm=checkbox('start with storms?', False),
                       max_wave_height_storm=slider('max wave height', 6., min=0.1, max=25.),
                       tidal_amplitude=slider('tidal amp', 2., min=1, max=10, step=1),
-                      min_tidal_area_for_transport=100.,
+                      min_tidal_area_for_transport=slider('tidal area', 100., min=10, max=500, step=10),
                       sediment_size=(5., 50., 125., 250.),
                       sediment_fraction=(0.25, 0.25, 0.25, 0.25),
                       initial_substratum=(100., (0.25, 0.25, 0.25, 0.25)),
