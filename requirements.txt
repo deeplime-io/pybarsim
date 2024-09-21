@@ -1,4 +1,4 @@
 matplotlib
 numpy
-onecode @ git+https://github.com/deeplime-io/onecode@dev/1.x
+onecode>=1
 pybarsim

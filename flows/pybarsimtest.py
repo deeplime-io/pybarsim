@@ -16,7 +16,7 @@ import matplotlib.animation as animation
 
 from pybarsim import BarSim2D
 
-from onecode import slider, image_output, video_output, Logger, checkbox
+from onecode import slider, file_output, Logger, checkbox
 
 
 def run():
@@ -113,14 +113,14 @@ def run():
 
 
     barsim.sequence_['Sea level'].plot()
-    plt.savefig(image_output('sea level', 'sea_level.png'))
+    plt.savefig(file_output('sea level', 'sea_level.png'))
 
 
     # In[ ]:
 
 
     barsim.sequence_['Elevation'].plot()
-    plt.savefig(image_output('elevation', 'elevation.png'))
+    plt.savefig(file_output('elevation', 'elevation.png'))
 
 
     # ## 2. Stratigraphy visualization
@@ -174,7 +174,7 @@ def run():
 
     Logger.info('=== Making plots ===')
     barsim.subsequence_['Mean grain size'].plot();
-    plt.savefig(image_output('mean grain size', 'mean_grain_size.png'))
+    plt.savefig(file_output('mean grain size', 'mean_grain_size.png'))
 
 
     # Or we can use the function `plot_subsequence` to plot the final stratigraphy in space:
@@ -208,7 +208,7 @@ def run():
     cbar.set_ticks(ticks=[1, 2, 3, 4, 5, 6],
                    labels=barsim.subsequence_['Environment'].values[1:])
     ax.set(xlabel='x (m)', ylabel='z (m)');
-    plt.savefig(image_output('major facies 2', 'major_facies2.png'))
+    plt.savefig(file_output('major facies 2', 'major_facies2.png'))
 
 
     # We can also plot specific grain sizes or facies using the `idx` parameter:
@@ -224,7 +224,7 @@ def run():
     c = barsim.plot_subsequence(ax, var='Facies', idx=5, mask_zeros=False)
     fig.colorbar(c[0], ax=ax, label=r'Fraction of ' + str(barsim.subsequence_['Environment'][5].values))
     ax.set(xlabel='x (m)', ylabel='z (m)');
-    plt.savefig(image_output('facies', 'facies.png'))
+    plt.savefig(file_output('facies', 'facies.png'))
 
 
     # ## 3. Stratigraphy regridding
@@ -267,14 +267,14 @@ def run():
 
     Logger.info('=== Making plots ===')
     barsim.record_['Mean grain size'].plot(figsize=(12, 4))
-    plt.savefig(image_output('mean grain size 2', 'mean_grain_size2.png'))
+    plt.savefig(file_output('mean grain size 2', 'mean_grain_size2.png'))
 
 
     # In[ ]:
 
 
     barsim.record_['Sorting term'].plot(figsize=(12, 4))
-    plt.savefig(image_output('sorting term', 'sorting_term.png'))
+    plt.savefig(file_output('sorting term', 'sorting_term.png'))
 
 
     # In[ ]:
@@ -288,7 +288,7 @@ def run():
     cbar = fig.colorbar(im, ax=ax, label=r'Major facies')
     cbar.set_ticks(ticks=[1, 2, 3, 4, 5, 6, 7],
                    labels=barsim.subsequence_['Environment'].values);
-    plt.savefig(image_output('major facies', 'major_facies.png'))
+    plt.savefig(file_output('major facies', 'major_facies.png'))
 
 
     # ## 4. Process visualization
@@ -342,6 +342,6 @@ def run():
     Logger.info('=== Making video ===')
     ani = animation.FuncAnimation(fig, update, len(sea_level), interval=100)
     # HTML(ani.to_jshtml())
-    ani.save(video_output('sim', 'simulation.mp4'))
+    ani.save(file_output('sim', 'simulation.mp4'))
 
     Logger.info('=== Done! ===')
