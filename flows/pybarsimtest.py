@@ -85,7 +85,7 @@ def run():
                       sediment_size=(5., 50., 125., 250.),
                       sediment_fraction=(0.25, 0.25, 0.25, 0.25),
                       initial_substratum=(100., (0.25, 0.25, 0.25, 0.25)),
-                      erodibility=slider('erodibility', 0.1, min=0., max=1., step=0.1)
+                      erodibility=slider('erodibility', 0.1, min=0., max=1., step=0.1),
                       washover_fraction=0.5,
                       tide_sand_fraction=0.3,
                       depth_factor_backbarrier=5.,
