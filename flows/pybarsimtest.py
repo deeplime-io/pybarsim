@@ -76,7 +76,7 @@ def run():
                       sea_level_curve,
                       sediment_supply_curve,
                       spacing=spacing,
-                      max_wave_height_fair_weather=1.5,
+                      max_wave_height_fair_weather=slider('Fair weather', 1.5, min=0.1, max=2, step=0.1),
                       allow_storms=checkbox('storms?', True),
                       start_with_storm=checkbox('start with storms?', False),
                       max_wave_height_storm=slider('max wave height', 6., min=0.1, max=25.),
