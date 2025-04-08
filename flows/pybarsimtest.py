@@ -16,35 +16,70 @@ import matplotlib.animation as animation
 
 from pybarsim import BarSim2D
 
-from onecode import slider, file_output, Logger, checkbox
+from onecode import Logger, slider, file_output, checkbox, number_input
 
 
 def run():
     # ## 1. Setup and run
-
-    # Define the initial elevation and cell size (in m):
-
-    # In[ ]:
-
-
-    initial_elevation = np.linspace(1000., 900., 200)
-
-    spacing = 100.
-
 
     # Define the run time (in yr) and the inflection points for the variations of sea level (in m):
 
     # In[ ]:
 
 
-    run_time = slider('run time', 25000., min=10000, max=50000, step=1000)
+    run_time = slider('Simulation Run Time (yr)', 25000., min=10000, max=50000, step=1000)
+
+
+    # Define the initial elevation and cell size (in m):
+
+    # In[ ]:
+
+
+    max_elevation = slider(
+        'max_elevation',
+        50,
+        min=10,
+        max=100,
+        step=1,
+        label='Max Bathymetry (m)'
+    )
+    min_elevation = slider(
+        'min_elevation',
+        -50,
+        min=-100,
+        max=-10,
+        step=1,
+        label='Min Bathymetry (m)'
+    )
+
+    initial_elevation = np.linspace(max_elevation, min_elevation, 200)
+    spacing = 100.
+
+    max_sea_level = number_input(
+        'max_sea_level',
+        45,
+        min=-100,
+        max=100,
+        step=5,
+        label='Max Sea Level (m)'
+    )
+
+    min_sea_level = number_input(
+        'min_sea_level',
+        20,
+        min=-100,
+        max=100,
+        step=5,
+        label='Min Sea Level (m)'
+    )
+    low_sea_level = min_sea_level + 0.1 * (max_sea_level - min_sea_level)
 
     sea_level_curve = np.array([
-        (0., 998.),
-        (0.25*run_time, 985.),
-        (0.5*run_time, 975.),
-        (0.75*run_time, 985.),
-        (run_time, 998.)
+        (0., max_sea_level),
+        (0.25 * run_time, low_sea_level),
+        (0.5 * run_time, min_sea_level),
+        (0.75 * run_time, low_sea_level),
+        (run_time, max_sea_level)
     ])
 
 
@@ -53,12 +88,28 @@ def run():
     # In[ ]:
 
 
+    high_sediment_supply = slider(
+        'high_sediment_supply',
+        25.,
+        min=15,
+        max=35,
+        step=1,
+        label='High Sediment Supply (m^2/yr)'
+    )
+    low_sediment_supply = slider(
+        'low_sediment_supply',
+        5.,
+        min=1,
+        max=15,
+        step=1,
+        label='Low Sediment Supply (m^2/yr)'
+    )
     sediment_supply_curve = np.array([
-        (0., 25.),
-        (0.25*run_time, 25.),
-        (0.5*run_time, 25.),
-        (0.75*run_time, 5.),
-        (run_time, 5.)
+        (0., high_sediment_supply),
+        (0.25 * run_time, high_sediment_supply),
+        (0.5 * run_time, high_sediment_supply),
+        (0.75 * run_time, low_sediment_supply),
+        (run_time, low_sediment_supply)
     ])
 
 
@@ -76,16 +127,16 @@ def run():
                       sea_level_curve,
                       sediment_supply_curve,
                       spacing=spacing,
-                      max_wave_height_fair_weather=slider('Fair weather', 1.5, min=0.1, max=2, step=0.1),
-                      allow_storms=checkbox('storms?', True),
-                      start_with_storm=checkbox('start with storms?', False),
-                      max_wave_height_storm=slider('max wave height', 6., min=0.1, max=25.),
-                      tidal_amplitude=slider('tidal amp', 2., min=1, max=10, step=1),
-                      min_tidal_area_for_transport=slider('tidal area', 100., min=10, max=500, step=10),
+                      max_wave_height_fair_weather=1.5,
+                      allow_storms=checkbox('Allow Storms?', True),
+                      start_with_storm=False,
+                      max_wave_height_storm=6.,
+                      tidal_amplitude=slider('Tidal Amplitude (m)', 2., min=1, max=20, step=1),
+                      min_tidal_area_for_transport=100.,
                       sediment_size=(5., 50., 125., 250.),
                       sediment_fraction=(0.25, 0.25, 0.25, 0.25),
                       initial_substratum=(100., (0.25, 0.25, 0.25, 0.25)),
-                      erodibility=0.1,
+                      erodibility=slider('Erodibility (factor)', 0.1, min=0.05, max=10., step=0.05),
                       washover_fraction=0.5,
                       tide_sand_fraction=0.3,
                       depth_factor_backbarrier=5.,
